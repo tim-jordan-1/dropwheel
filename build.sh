@@ -2,12 +2,14 @@
 # Builds build/Dropwheel.app and build/dropwheel (the CLI). Needs the Xcode Command Line Tools.
 set -e
 cd "$(dirname "$0")"
-swift build -c release --product Dropwheel
-swift build -c release --product dropwheel-cli
+# UNIVERSAL=1 builds for Apple silicon and Intel. It needs full Xcode, not only the Command Line Tools.
+if [ -n "$UNIVERSAL" ]; then ARCHS="--arch arm64 --arch x86_64"; OUT=.build/apple/Products/Release; else ARCHS=""; OUT=.build/release; fi
+swift build -c release $ARCHS --product Dropwheel
+swift build -c release $ARCHS --product dropwheel-cli
 APP=build/Dropwheel.app
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp -f .build/release/Dropwheel "$APP/Contents/MacOS/Dropwheel"
-cp -f .build/release/dropwheel-cli build/dropwheel
+cp -f "$OUT/Dropwheel" "$APP/Contents/MacOS/Dropwheel"
+cp -f "$OUT/dropwheel-cli" build/dropwheel
 cp -f Info.plist "$APP/Contents/Info.plist"
 # AppIcon.png is the 1024px source. Replace it to change the logo.
 ICONSET=build/AppIcon.iconset
