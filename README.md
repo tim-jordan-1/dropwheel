@@ -1,5 +1,7 @@
 # Dropwheel
 
+![Dropwheel: the convert, tools and actions wheels](docs/hero.png)
+
 Dropwheel is a macOS menu-bar app that converts and processes files while you drag them. Start to drag files, then tap one key. A wheel of actions opens under the pointer. Drop the files on an action to run it.
 
 | Key | Wheel |
