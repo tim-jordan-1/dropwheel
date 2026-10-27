@@ -2,7 +2,7 @@
 
 Drag files. Tap a key. Drop on a wheel to convert, edit or share them.
 
-**[Download](https://github.com/tim-jordan-1/dropwheel/releases/latest/download/Dropwheel.zip)** · Needs macOS 14 or later, Apple silicon, and `brew install ffmpeg webp`
+**[Download](https://github.com/tim-jordan-1/dropwheel/releases/latest/download/Dropwheel.zip)** · Needs macOS 14 or later and `brew install ffmpeg webp`
 
 ![Dropwheel: the convert, tools and actions wheels](docs/hero.png)
 
@@ -15,6 +15,12 @@ Dropwheel is a macOS menu-bar app that converts and processes files while you dr
 | ⌃ Control | Actions: move, copy, AirDrop, ZIP, and more |
 
 To switch wheels during a drag, tap a different key.
+
+Tools such as Trim, Crop, Resize and Adjust open an editor first. Conversions and tools save a new file next to the original. They never overwrite it.
+
+![The Trim editor](docs/trim.png)
+
+![The Adjust editor](docs/adjust.png)
 
 ## Install
 
@@ -35,7 +41,13 @@ If you prefer the terminal, this command removes the block instead of steps 4 an
 xattr -dr com.apple.quarantine /Applications/Dropwheel.app
 ```
 
-Dropwheel needs macOS 14 or later. The release build is for Apple silicon Macs. On an Intel Mac, build from source.
+Dropwheel needs macOS 14 or later. The release build runs on Apple silicon and Intel Macs.
+
+## Quick start
+
+1. Open Dropwheel. Its icon appears in the menu bar.
+2. In Finder, start to drag a photo, and tap ⇧ Shift. Keep the mouse button down.
+3. Drop the photo on PNG. The PNG file appears next to the photo.
 
 ## Build from source
 
