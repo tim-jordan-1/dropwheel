@@ -1,5 +1,9 @@
 # Dropwheel
 
+Drag files. Tap a key. Drop on a wheel to convert, edit or share them.
+
+**[Download](https://github.com/tim-jordan-1/dropwheel/releases/latest/download/Dropwheel.zip)** · Needs macOS 14 or later, Apple silicon, and `brew install ffmpeg webp`
+
 ![Dropwheel: the convert, tools and actions wheels](docs/hero.png)
 
 Dropwheel is a macOS menu-bar app that converts and processes files while you drag them. Start to drag files, then tap one key. A wheel of actions opens under the pointer. Drop the files on an action to run it.
@@ -20,7 +24,7 @@ To switch wheels during a drag, tap a different key.
    brew install ffmpeg webp
    ```
 
-2. Download `Dropwheel.zip` from the [latest release](https://github.com/tim-jordan-1/dropwheel/releases/latest).
+2. Download [Dropwheel.zip](https://github.com/tim-jordan-1/dropwheel/releases/latest/download/Dropwheel.zip).
 3. Unzip it and move `Dropwheel.app` to your Applications folder.
 4. Open Dropwheel. The app is not notarized by Apple, so macOS blocks it the first time.
 5. Open System Settings > Privacy & Security, scroll down, and click Open Anyway next to the Dropwheel message.
