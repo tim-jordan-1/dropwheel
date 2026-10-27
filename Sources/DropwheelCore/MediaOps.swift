@@ -110,8 +110,9 @@ public enum VideoOps {
         let out = outputURL(for: url, ext: ext, suffix: "compressed")
         var vf = evenScale
         if let mh = o.maxHeight, info.height > mh { vf = "scale=-2:\(mh)" }
-        let codec = o.encoding == .hevc ? ["-c:v", "libx265", "-tag:v", "hvc1", "-preset", "medium"] : ["-c:v", "libx264", "-preset", "medium"]
-        var audio = info.hasAudio ? ["-c:a", "aac", "-b:a", "128k"] : ["-an"]
+        let codec: [String] = o.encoding == .hevc ? ["-c:v", "libx265", "-tag:v", "hvc1", "-preset", "medium"] : ["-c:v", "libx264", "-preset", "medium"]
+        var audio: [String] = info.hasAudio ? ["-c:a", "aac", "-b:a", "128k"] : ["-an"]
+        let audioMap: [String] = info.hasAudio ? ["-map", "0:a:0"] : []
         if let t = o.targetBytes, info.hasAudio { audio[3] = "\(max(32, min(128, Int(Double(t) * 8 / info.duration / 1000 * 0.96 * 0.2))))k" }
         return try produce(out, verify: { try verifyMedia($0, video: true); try requireSmaller($0, than: url) }) { tmp in
             if let target = o.targetBytes {
@@ -121,18 +122,18 @@ public enum VideoOps {
                 guard videoKbps >= 80 else { throw OpError("The target file size is too small for a \(Int(info.duration)) second video.") }
                 let log = tempURL(ext: "").path
                 defer { try? FileManager.default.removeItem(atPath: log + "-0.log"); try? FileManager.default.removeItem(atPath: log + "-0.log.mbtree") }
-                let base = ["-i", url.path, "-map", "0:v:0", "-vf", vf, "-pix_fmt", "yuv420p"] + codec + ["-b:v", "\(videoKbps)k", "-maxrate", "\(Int(Double(videoKbps) * 1.5))k", "-bufsize", "\(videoKbps * 2)k"]
+                let base: [String] = ["-i", url.path, "-map", "0:v:0", "-vf", vf, "-pix_fmt", "yuv420p"] + codec + ["-b:v", "\(videoKbps)k", "-maxrate", "\(Int(Double(videoKbps) * 1.5))k", "-bufsize", "\(videoKbps * 2)k"]
                 if o.encoding == .h264 {
                     try ffmpeg(base + ["-pass", "1", "-passlogfile", log, "-an", "-f", "null", "/dev/null"], duration: info.duration * 2,
                                progress: progress, cancel: cancel)
-                    try ffmpeg(base + ["-pass", "2", "-passlogfile", log] + (info.hasAudio ? ["-map", "0:a:0"] : []) + audio + containerArgs(ext) + [tmp.path],
+                    try ffmpeg(base + ["-pass", "2", "-passlogfile", log] + audioMap + audio + containerArgs(ext) + [tmp.path],
                                duration: info.duration * 2, progress: { p in progress?(0.5 + p) }, cancel: cancel)
                 } else {
-                    try ffmpeg(base + (info.hasAudio ? ["-map", "0:a:0"] : []) + audio + containerArgs(ext) + [tmp.path], duration: info.duration, progress: progress, cancel: cancel)
+                    try ffmpeg(base + audioMap + audio + containerArgs(ext) + [tmp.path], duration: info.duration, progress: progress, cancel: cancel)
                 }
             } else {
                 let crf = [CompressionLevel.low: 23, .medium: 27, .high: 31][o.level]! + (o.encoding == .hevc ? 2 : 0)
-                try ffmpeg(["-i", url.path, "-map", "0:v:0"] + (info.hasAudio ? ["-map", "0:a:0"] : []) + ["-vf", vf, "-pix_fmt", "yuv420p"] + codec + ["-crf", "\(crf)"] + audio + containerArgs(ext) + [tmp.path],
+                try ffmpeg(["-i", url.path, "-map", "0:v:0"] + audioMap + ["-vf", vf, "-pix_fmt", "yuv420p"] + codec + ["-crf", "\(crf)"] + audio + containerArgs(ext) + [tmp.path],
                            duration: info.duration, progress: progress, cancel: cancel)
             }
         }
