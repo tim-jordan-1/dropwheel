@@ -1,0 +1,17 @@
+# On a version tag (for example v0.1.0), build Dropwheel.app and attach Dropwheel.zip to a GitHub release.
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh
+      - run: ditto -c -k --keepParent build/Dropwheel.app Dropwheel.zip
+      - run: gh release create "$GITHUB_REF_NAME" Dropwheel.zip --title "Dropwheel $GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
