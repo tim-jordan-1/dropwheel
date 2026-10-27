@@ -10,8 +10,8 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
-      - run: swift --version && UNIVERSAL=1 ./build.sh
+      - run: swift --version && UNIVERSAL=1 VERSION="${GITHUB_REF_NAME#v}" ./build.sh
       - run: ditto -c -k --keepParent build/Dropwheel.app Dropwheel.zip
-      - run: gh release create "$GITHUB_REF_NAME" Dropwheel.zip --title "Dropwheel $GITHUB_REF_NAME" --generate-notes
+      - run: gh release create "$GITHUB_REF_NAME" Dropwheel.zip --title "Dropwheel $GITHUB_REF_NAME" --generate-notes --notes-file .github/release-notes.md
         env:
           GH_TOKEN: ${{ github.token }}

@@ -21,5 +21,7 @@ done
 iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/AppIcon.icns"
 # Helpers in Contents/Resources/Tools win over Homebrew copies at runtime.
 # Homebrew ffmpeg links Homebrew dylibs, so a build for other Macs needs static ffmpeg and cwebp there.
+# VERSION=1.2.3 sets the version that Finder and the About window show.
+if [ -n "$VERSION" ]; then /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "$APP/Contents/Info.plist"; fi
 codesign --force --sign - "$APP"
 echo "Built $APP"

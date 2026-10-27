@@ -8,6 +8,10 @@ Drag files. Tap a key. Drop on a wheel to convert, edit or share them.
 
 Dropwheel is a macOS menu-bar app that converts and processes files while you drag them. Start to drag files, then tap one key. A wheel of actions opens under the pointer. Drop the files on an action to run it.
 
+## Features
+
+### One key per wheel
+
 | Key | Wheel |
 |---|---|
 | ⇧ Shift | Convert: image, video, audio and document formats |
@@ -16,11 +20,17 @@ Dropwheel is a macOS menu-bar app that converts and processes files while you dr
 
 To switch wheels during a drag, tap a different key.
 
-Tools such as Trim, Crop, Resize and Adjust open an editor first. Conversions and tools save a new file next to the original. They never overwrite it.
+### Edit before you save
+
+Tools such as Trim, Crop, Resize and Adjust open an editor first.
 
 ![The Trim editor](docs/trim.png)
 
 ![The Adjust editor](docs/adjust.png)
+
+### Your original stays as it is
+
+Conversions and tools save a new file next to the original. They never overwrite it.
 
 ## Install
 
@@ -34,6 +44,8 @@ Tools such as Trim, Crop, Resize and Adjust open an editor first. Conversions an
 3. Unzip it and move `Dropwheel.app` to your Applications folder.
 4. Open Dropwheel. The app is not notarized by Apple, so macOS blocks it the first time.
 5. Open System Settings > Privacy & Security, scroll down, and click Open Anyway next to the Dropwheel message.
+
+Office and iWork conversions need Pages, Keynote or Numbers. The first time, macOS asks you to let Dropwheel control them.
 
 If you prefer the terminal, this command removes the block instead of steps 4 and 5:
 
