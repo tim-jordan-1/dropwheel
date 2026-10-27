@@ -7,10 +7,10 @@ permissions:
   contents: write
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
-      - run: ./build.sh
+      - run: swift --version && ./build.sh
       - run: ditto -c -k --keepParent build/Dropwheel.app Dropwheel.zip
       - run: gh release create "$GITHUB_REF_NAME" Dropwheel.zip --title "Dropwheel $GITHUB_REF_NAME" --generate-notes
         env:
